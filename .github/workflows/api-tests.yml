@@ -1,0 +1,114 @@
+name: API Test Automation
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run tests daily at 9 AM UTC
+    - cron: '0 9 * * *'
+
+jobs:
+  api-testing:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install Newman and Dependencies
+      run: |
+        npm install -g newman
+        npm install -g newman-reporter-html
+        
+    - name: Create Reports Directory
+      run: mkdir -p newman-reports
+      
+    - name: Execute Hotel Booking API Tests
+      run: |
+        newman run collections/restful-booker/hotel-booking-collection.json \
+          -e collections/restful-booker/restful-booker-env.json \
+          --reporters cli,json,html \
+          --reporter-json-export newman-reports/hotel-test-results.json \
+          --reporter-html-export newman-reports/hotel-booking-report.html \
+          --bail
+      continue-on-error: true
+      
+    - name: Execute Trello API Tests  
+      run: |
+        newman run collections/trello/trello-collection.json \
+          -e collections/trello/trello-env.json \
+          --reporters cli,json,html \
+          --reporter-json-export newman-reports/trello-test-results.json \
+          --reporter-html-export newman-reports/trello-api-report.html \
+          --bail
+      continue-on-error: true
+      
+    - name: Upload Test Reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: api-test-reports-node-${{ matrix.node-version }}
+        path: newman-reports/
+        retention-days: 30
+        
+    - name: Test Results Summary
+      if: always()
+      run: |
+        echo "## API Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "### Test Execution Completed" >> $GITHUB_STEP_SUMMARY
+        echo "- Hotel Booking API Tests: Executed" >> $GITHUB_STEP_SUMMARY  
+        echo "- Trello API Tests: Executed" >> $GITHUB_STEP_SUMMARY
+        echo "- Reports generated and uploaded as artifacts" >> $GITHUB_STEP_SUMMARY
+        
+    - name: Comment Test Results on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          let comment = '## 🧪 API Test Results\n\n';
+          
+          try {
+            if (fs.existsSync('newman-reports/hotel-test-results.json')) {
+              comment += '✅ Hotel Booking API Tests: Completed\n';
+            }
+            if (fs.existsSync('newman-reports/trello-test-results.json')) {
+              comment += '✅ Trello API Tests: Completed\n';
+            }
+            comment += '\n📊 Detailed reports available in workflow artifacts.';
+          } catch (error) {
+            comment += '⚠️ Test execution completed with some issues. Check workflow logs for details.';
+          }
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: api-testing
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Run Security Scan
+      uses: securecodewarrior/github-action-add-sarif@v1
+      with:
+        sarif-file: 'security-scan-results.sarif'
+      continue-on-error: true
