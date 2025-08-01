@@ -1,0 +1,141 @@
+{
+	"id": "f5821275-a343-4e3e-8f7b-7b4d8e411090",
+	"name": "Trello",
+	"timestamp": "2025-07-28T11:27:49.515Z",
+	"collection_id": "24455340-3d7a89b7-8cc0-4625-acbd-0f878164a97a",
+	"folder_id": 0,
+	"environment_id": "24455340-20aad41f-8f73-491e-b81d-568f95105b35",
+	"totalPass": 1,
+	"delay": "100",
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-07-28T11:27:45.117Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "015df219-e158-4e0a-9d5b-a4f7759cb190",
+			"name": "Create A Board",
+			"url": "https://api.trellog.com/1/boards/?name=UdemyDenemeleri&key={{api_key_t}}&token={{api_token_t}}",
+			"time": 835,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				835
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ddb5007f-19d3-4dad-844f-ddac0fac701b",
+			"name": "Create A List",
+			"url": "https://api.trellog.com/1/boards/6886296f9867c6285cf756c1/lists?name=Denemelistesi&key={{api_key_t}}&token={{api_token_t}}",
+			"time": 633,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				633
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c58708f9-0113-4629-98db-dee595cfb60e",
+			"name": "Create a Card",
+			"url": "https://api.trellog.com/1/cards?idList=688629bfb5b6a4ba8042c86a&key={{api_key_t}}&token={{api_token_t}}&name=görev zart zurt",
+			"time": 592,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				592
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "d6ae87c3-9e13-433c-a3e6-e65ec58fdf53",
+			"name": "Delete a card",
+			"url": "https://api.trellog.com/1/cards/68862b243348d12a26afc3d1?key={{api_key_t}}&token={{api_token_t}}",
+			"time": 284,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				284
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "85aca51c-b994-4375-b5ae-cb1c53112c90",
+			"name": "Update a card",
+			"url": "https://api.trellog.com/1/cards/68862c019ed684ca7f2a18c2?key={{api_key_t}}&token={{api_token_t}}&name=2 değiş zart zort",
+			"time": 381,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				381
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 2725,
+	"collection": {
+		"requests": [
+			{
+				"id": "015df219-e158-4e0a-9d5b-a4f7759cb190",
+				"method": "POST"
+			},
+			{
+				"id": "ddb5007f-19d3-4dad-844f-ddac0fac701b",
+				"method": "POST"
+			},
+			{
+				"id": "c58708f9-0113-4629-98db-dee595cfb60e",
+				"method": "POST"
+			},
+			{
+				"id": "d6ae87c3-9e13-433c-a3e6-e65ec58fdf53",
+				"method": "DELETE"
+			},
+			{
+				"id": "85aca51c-b994-4375-b5ae-cb1c53112c90",
+				"method": "PUT"
+			}
+		]
+	}
+}
