@@ -1,0 +1,79 @@
+{
+  "id": "professional-restful-booker-env",
+  "name": "Restful Booker Production Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "https://restful-booker.herokuapp.com",
+      "type": "default",
+      "enabled": true,
+      "description": "Base URL for Restful Booker API endpoints"
+    },
+    {
+      "key": "authEndpoint", 
+      "value": "/auth",
+      "type": "default",
+      "enabled": true,
+      "description": "Authentication endpoint path"
+    },
+    {
+      "key": "bookingEndpoint",
+      "value": "/booking", 
+      "type": "default",
+      "enabled": true,
+      "description": "Booking management endpoint path"
+    },
+    {
+      "key": "adminUsername",
+      "value": "admin",
+      "type": "default", 
+      "enabled": true,
+      "description": "Administrative user credentials"
+    },
+    {
+      "key": "adminPassword",
+      "value": "password123",
+      "type": "secret",
+      "enabled": true,
+      "description": "Administrative password for authentication"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true,
+      "description": "JWT authentication token (auto-generated)"
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "type": "default",
+      "enabled": true,
+      "description": "Dynamic booking ID for test operations"
+    },
+    {
+      "key": "totalPrice",
+      "value": "",
+      "type": "default", 
+      "enabled": true,
+      "description": "Dynamically generated booking price"
+    },
+    {
+      "key": "testDataPrefix",
+      "value": "AutoTest",
+      "type": "default",
+      "enabled": true,
+      "description": "Prefix for test data identification"
+    },
+    {
+      "key": "requestTimeout",
+      "value": "5000",
+      "type": "default",
+      "enabled": true,
+      "description": "Request timeout in milliseconds"
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2024-01-15T10:30:00.000Z",
+  "_postman_exported_using": "Postman/10.20.0"
+}
